@@ -94,7 +94,7 @@ UIWindow 实例对象会首先在它的内容视图上调用 `hitTest:withEvent:
 
 
 
-### 谈谈对 UIResponder 的理解
+### UIResponder 是什么？
 
 UIResponder 类是专门用来响应用户的操作处理各种事件的，包括触摸事件(Touch Events)、运动事件(Motion Events)、远程控制事件(Remote Control Events)。我们知道 UIApplication、UIView、UIViewController 这几个类是直接继承自 UIResponder ，所以这些类都可以响应事件。当然我们自定义的继承自 UIView 的 View 以及自定义的继承自 UIViewController 的控制器都可以响应事件。
 
@@ -107,7 +107,7 @@ UIResponder 是所有响应对象的基类，在 UIResponder 类中定义了处
 
 ## WebKit
 
-### 说一下 JS 和 OC 互相调用的几种方式？
+### JS 和 OC 互相调用的几种方式？
 
 #### JS 调用 OC 的三种方式
 
