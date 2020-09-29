@@ -1,0 +1,79 @@
+@media screen and (max-width: 768px) {
+  .markdown-section {
+      max-width: 100%;
+  }
+}
+
+.sidebar ul {
+  margin-left: 0px;
+  padding-left: 8px;
+}
+.sidebar ul ul ul {
+  padding-left: 16px;
+}
+.sidebar-nav > ul li:before {
+  content: '';
+}
+.sidebar-nav > ul li a {
+  padding-left: 12px
+}
+.sidebar-nav > ul > li  a:hover {
+  text-decoration: none;
+  background: #f8f8f8;
+}
+.sidebar-nav > ul > li > ul > li[class] {
+  background: #f8f8f8;
+}
+.sidebar-nav > ul > li > ul > li[class] ul li a:hover {
+  background: #fff;
+}
+
+.sidebar-nav .app-sub-sidebar li {
+  margin: 0;
+}
+
+.markdown-section .edit-btn {
+  float: right;
+  text-decoration: none;
+  color: rgb(52, 73, 94);
+  background: #f8f8f8;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.markdown-section .edit-btn:hover {
+  color: #fff;
+  background: #42b983;
+}
+.markdown-section .anchor:hover {
+  text-decoration: none;
+}
+.markdown-section h1 {
+  font-size: 2.5rem;
+}
+
+
+.markdown-section h2 {
+  margin-top: 80px;
+  background: #f8f8f8;
+  padding: 16px;
+  text-align: center;
+}
+.markdown-section h3 {
+  margin-top: 64px;
+  border-bottom: 1px solid #eee;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.markdown-section h4 {
+  margin-top: 40px;
+}
+.markdown-section h4 .anchor span {
+  color: #42b983;
+}
+
+.markdown-section blockquote {
+  padding: 2px 24px;
+  background: #f8f8f8;
+}
