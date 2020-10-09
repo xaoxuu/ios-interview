@@ -1,8 +1,8 @@
-# 组件化（模块化）
+# 模块化（组件化）
 
 ## 概念理解
 
-### 组件化有什么好处？
+### 模块化有什么好处？
 
 - 业务分层、解耦，使代码变得可维护；
 - 有效的拆分、组织日益庞大的工程代码，使工程目录变得可维护；
@@ -26,6 +26,29 @@
 中间件：target-action，url-block，protocol-class
 
 
+### 常见的模块化方案
+
+- https://github.com/casatwy/CTMediator
+- https://github.com/joeldev/JLRoutes
+
+
+## CTMediator
+
+[CTMediator](https://github.com/casatwy/CTMediator) 方案的表象是通过 runtime 调度 Target-Action，但是 CTMediator 方案的本质是在不需要动业务代码的情况下，完成调度。
+
+
+作者博客：
+- [iOS应用架构谈 组件化方案](https://casatwy.com/iOS-Modulization.html)
+- [在现有工程中实施基于CTMediator的组件化方案](https://casatwy.com/modulization_in_action.html)
+- [CTMediator的Swift应用](https://casatwy.com/CTMediator_in_Swift.html)
+
+### 基于 CTMediator 的组件化方案，有哪些核心组成？
+
+- 中间件 `CTMediator`：集成就可以了
+- 扩展 `CTMediator+ModuleName`：扩展里声明了模块业务的对外接口，参数明确，这样外部调用者可以很容易理解如何调用接口。
+- 模块 `Target_ModuleName`：模块的实现及提供对外的方法调用 `Action_methodName`，需要传参数时，都统一以 `NSDictionary *` 的形式传入。
+
+
 
 ### 为什么 CTMediator 方案优于基于 Router 的方案？
 
@@ -45,24 +68,16 @@
 
 方便传递各种类型的参数。
 
+### 模块间去 Model 化（用字典传递）
 
+组件间调用时，是需要针对参数做去model化的。如果组件间调用不对参数做去model化的设计，就会导致业务形式上被组件化了，实质上依然没有被独立。
 
-### 基于 CTMediator 的组件化方案，有哪些核心组成？
+假设模块A和模块B之间采用model化的方案去调用，那么调用方法时传递的参数就会是一个对象。
 
-CTMediator 中间件：集成就可以了
+如果对象不是一个面向接口的通用对象，那么mediator的参数处理就会非常复杂，因为要区分不同的对象类型。如果mediator不处理参数，直接将对象以范型的方式转交给模块B，那么模块B必然要包含对象类型的声明。假设对象声明放在模块A，那么B和A之间的组件化只是个形式主义。如果对象类型声明放在mediator，那么对于B而言，就不得不依赖mediator。但是，大家可以从上面的架构图中看到，对于响应请求的模块而言，依赖mediator并不是必要条件，因此这种依赖是完全不需要的，这种依赖的存在对于架构整体而言，是一种污染。
 
-模块 `Target_%@`：模块的实现及提供对外的方法调用 `Action_methodName`，需要传参数时，都统一以 `NSDictionary *` 的形式传入。
+如果参数是一个面向接口的对象，那么mediator对于这种参数的处理其实就没必要了，更多的是直接转给响应方的模块。而且接口的定义就不可能放在发起方的模块中了，只能放在mediator中。响应方如果要完成响应，就也必须要依赖mediator，然而前面我已经说过，响应方对于mediator的依赖是不必要的，因此参数其实也并不适合以面向接口的对象的方式去传递。
 
-`CTMediator+%@` 扩展：扩展里声明了模块业务的对外接口，参数明确，这样外部调用者可以很容易理解如何调用接口。
+因此，使用对象化的参数无论是否面向接口，带来的结果就是业务模块形式上是被组件化了，但实质上依然没有被独立。
 
-
-
-### 
-
-
-
-
-
-related_repos:
-  - url: https://github.com/casatwy/CTMediator
-  - url: https://github.com/joeldev/JLRoutes
+在这种跨模块场景中，参数最好还是以去model化的方式去传递，在iOS的开发中，就是以字典的方式去传递。这样就能够做到只有调用方依赖mediator，而响应方不需要依赖mediator。然而在去model化的实践中，由于这种方式自由度太大，我们至少需要保证调用方生成的参数能够被响应方理解，然而在组件化场景中，限制去model化方案的自由度的手段，相比于网络层和持久层更加容易得多。
