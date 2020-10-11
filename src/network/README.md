@@ -30,7 +30,13 @@
 HTTP 协议即超文本传送协议(Hypertext Transfer Protocol )，是 Web 联网的基础，也是手机联网常用的协议之一，HTTP 协议是建立在 TCP 协议之上的一种应用。
 HTTP 连接最显著的特点是客户端发送的每次请求都需要服务器回送响应，在请求结束后，会主动释放连接。从建立连接到关闭连接的过程称为“一次连接”。
 
+### GET 与 POST 有什么实质上的区别
 
+GET 产生一个 TCP 数据包；而 POST 产生两个 TCP 数据包。
+
+对于 GET 方式的请求，浏览器会把 header 和 data 一并发送出去，服务器响应 200；而对于 POST 请求，浏览器先发送 header 响应 100 continue 然后在发送 data 响应 200 ok 。
+
+GET 请求只能在 URL 上带参数，而 POST 请求除了能在 URL 上带参数，还能在请求 body 中设置参数。
 
 ### 如何自己实现 GET 和 POST 网络请求？
 
