@@ -31,7 +31,7 @@ MVP模式是MVC模式的一个演化版本，其中Model与MVC模式中Model层�
 
 从上图可以看出，从MVC模式中增加了Presenter层，将UIViewController中复杂的业务逻辑、网络请求等剥离出来。
 
-优点 模型和视图完全分离，可以做到修改视图而不影响模型；更高效的使用模型，View不依赖Model，可以说VIew能做到对业务逻辑完全分离
+优点 模型和视图完全分离，可以做到修改视图而不影响模型；更高效的使用模型，View不依赖Model，可以说View能做到对业务逻辑完全分离
 
 缺点 Presenter中除了处理业务逻辑以外，还要处理View-Model两层的协调，也会导致Presenter层的臃肿
 
@@ -40,9 +40,9 @@ MVP模式是MVC模式的一个演化版本，其中Model与MVC模式中Model层�
 ### MVVM
 
 MVVM（Model、Controller/View、ViewModel）
-在MVVM中，view和ViewCOntroller联系在一起，我们把它们视为一个组件，view和ViewController都不能直接引用model，而是引用是视图模型即ViewModel。 viewModel是一个用来放置用户输入验证逻辑、视图显示逻辑、网络请求等业务逻辑的地方，这样的设计模式，会轻微增加代码量，但是会减少代码的复杂性
+在MVVM中，view和ViewController联系在一起，我们把它们视为一个组件，view和ViewController都不能直接引用model，而是引用是视图模型即ViewModel。 viewModel是一个用来放置用户输入验证逻辑、视图显示逻辑、网络请求等业务逻辑的地方，这样的设计模式，会轻微增加代码量，但是会减少代码的复杂性
 
-优点 VIew可以独立于Model的变化和修改，一个ViewModel可以绑定到不同的View上，降低耦合，增加重用
+优点 View可以独立于Model的变化和修改，一个ViewModel可以绑定到不同的View上，降低耦合，增加重用
 
 缺点 过于简单的项目不适用、大型的项目视图状态较多时构建和维护成本太大
 

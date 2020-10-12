@@ -306,10 +306,33 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), 
 
 ### 如何控制最大并发数？
 
+#### NSOperationQueue
 
+NSOperationQueue 提供了 `maxConcurrentOperationCount` 属性设置最大并发数（该属性需要在任务添加到队列中之前进行设置）其默认值是 `-1`；如果值设为 `0`，那么不会执行任何任务；如果值设为 `1`，那么该队列是串行的；如果大于 `1`，那么是并行的。
 
+#### GCD
 
-### red, 如何处理线程安全（资源竞争）问题？
+GCD 可以用信号量来实现最大并发数：
+
+```objc
+dispatch_queue_t workQueue = dispatch_queue_create("workQueue", DISPATCH_QUEUE_CONCURRENT);
+dispatch_queue_t waitQueue = dispatch_queue_create("waitQueue",DISPATCH_QUEUE_SERIAL);
+dispatch_semaphore_t semaphore = dispatch_semaphore_create(10);
+
+for (NSInteger i = 0; i < 10; i++) {
+  dispatch_async(waitQueue, ^{
+      dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+      dispatch_async(workQueue, ^{
+          NSLog(@"thread-info: %@开始执行任务%d", [NSThread currentThread], (int)i);
+          sleep(1);
+          NSLog(@"thread-info: %@结束执行任务%d", [NSThread currentThread], (int)i);
+          dispatch_semaphore_signal(semaphore);
+      });
+  });
+}
+```
+
+### 如何处理线程安全（资源竞争）问题？
 
 在 iOS 上进行多线程开发，为了保证线程安全，防止资源竞争，需要给线程加锁，通常用到的线程锁分为<u>7</u>种：信号量、互斥锁、自旋锁、递归锁、条件锁、读写锁、分布式锁。
 
@@ -450,7 +473,7 @@ NSDistributedLock 分布锁，文件方式实现，可以跨进程 用 tryLock �
 
 ### GCD 执行原理？
 
-GCD 有一个底层线程池，这个池中存放的是一个个的线程。之所以称为“池”，很容易理解出这个“池”中的线程是可以重用的，当一段时间后这个线程没有被调用胡话，这个线程就会被销毁。注意：开多少条线程是由底层线程池决定的（线程建议控制再3~5条），池是系统自动来维护，不需要我们程序员来维护，我们只关心的是向队列中添加任务，队列调度即可。
+GCD 有一个底层线程池，这个池中存放的是一个个的线程。之所以称为“池”，很容易理解出这个“池”中的线程是可以重用的，当一段时间后这个线程没有被调用，这个线程就会被销毁。注意：开多少条线程是由底层线程池决定的（线程建议控制再3~5条），池是系统自动来维护，不需要我们程序员来维护，我们只关心的是向队列中添加任务，队列调度即可。
 
 如果队列中存放的是同步任务，则任务出队后，底层线程池中会提供一条线程供这个任务执行，任务执行完毕后这条线程再回到线程池。这样队列中的任务反复调度，因为是同步的，所以当我们用 `currentThread` 打印的时候，就是同一条线程。
 

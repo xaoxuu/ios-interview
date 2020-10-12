@@ -119,7 +119,7 @@ UIResponder 是所有响应对象的基类，在 UIResponder 类中定义了处
 
 #### OC 调用 JS 代码两种方式
 
-- 通过 webVIew 调用 `webView stringByEvaluatingJavaScriptFromString:` 调用
+- 通过 webView 调用 `webView stringByEvaluatingJavaScriptFromString:` 调用
 
 - 通过 JSContext 调用 `[context evaluateScript:];`
 

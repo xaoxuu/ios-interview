@@ -62,8 +62,8 @@ public enum UIUserInterfaceStyle : Int {
 现在我们创建两个 UIColor 并赋值给 view.backgroundColor 和 label，代码如下：
 
 ```swift
-let backgroundColor = UIColor { (trainCollection) -> UIColor in
-    if trainCollection.userInterfaceStyle == .dark {
+let backgroundColor = UIColor { (traitCollection) -> UIColor in
+    if traitCollection.userInterfaceStyle == .dark {
         return UIColor.black
     } else {
         return UIColor.white
@@ -71,8 +71,8 @@ let backgroundColor = UIColor { (trainCollection) -> UIColor in
 }
 view.backgroundColor = backgroundColor
 
-let labelColor = UIColor { (trainCollection) -> UIColor in
-    if trainCollection.userInterfaceStyle == .dark {
+let labelColor = UIColor { (traitCollection) -> UIColor in
+    if traitCollection.userInterfaceStyle == .dark {
         return UIColor.white
     } else {
         return UIColor.black
@@ -92,7 +92,7 @@ label.textColor = labelColor
 #### 获取当前模式 (Light or Dark)
 
 ```swift
-if trainCollection.userInterfaceStyle == .dark {
+if traitCollection.userInterfaceStyle == .dark {
     // Dark
 } else {
     // Light
