@@ -12,6 +12,7 @@
   - [组件化（模块化）](/modularization/)
   - [性能优化](/performance-optimization/)
   - [数据安全和加密](/encryption/)
+  - [Swift](/swift/)
   - [适配、升级、混编](/adaptation/)
 
 - **SDK应用与源码理解**
